@@ -25,14 +25,36 @@ private:
 
     //该指针指向树根
     node* root;
+    //binary_search_tree类私有，该方法删除参数指针指向的树
+    void remove(node*);
 public:
-    //测试
+    //构造函数
     binary_search_tree();
+    //析构函数，调用了私有的remove(node* a)函数
     ~binary_search_tree();
 };
 
 template<typename object>
+void binary_search_tree<object>::remove(node* a)
+{
+    if (a != nullptr)
+    {
+        remove(a->left);
+        remove(a->right);
+        delete a;
+    }
+    else
+        ;
+}
+
+template<typename object>
 binary_search_tree<object>::binary_search_tree()
 {
-    
+    root=new node();
+}
+
+template<typename object>
+binary_search_tree<object>::~binary_search_tree()
+{
+    remove(root);
 }
