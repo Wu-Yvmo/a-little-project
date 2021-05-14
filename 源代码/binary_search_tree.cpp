@@ -29,14 +29,21 @@ private:
     void remove(node*);
     //这是查找的私有接口，供公有实现调用
     bool exists(object & x,node* t);
-    
+    //查找最小值，内部接口
+    node* find_min_private(node* t);
+    //查找最大值，内部接口
+    node* find_max_private(node* t);
 public:
     //构造函数
     binary_search_tree();
     //析构函数，调用了私有的remove(node* a)函数
     ~binary_search_tree();
     //查找树中是否存在大小等于x的节点
-    bool exists(object & x)；
+    bool exists(object & x);
+    //查找最小值，公有接口
+    node* find_min();
+    //查找最大值，公有接口
+    node* find_max();
 };
 
 template<typename object>
@@ -81,4 +88,38 @@ template<typename object>
 bool binary_search_tree<object>::exists(object & x)
 {
     return exists(object & x,root);
+}
+
+template<typename object>
+binary_search_tree<object>::node* binary_search_tree<object>::find_min_private(node* t)
+{
+    if (t == nullptr)
+        return nullptr;
+    else if (t->left == nullptr)
+        return t;
+    else
+        return find_min_private(t->left);
+}
+
+template<typename object>
+binary_search_tree<object>::node* binary_search_tree<object>::find_max_private(node* t)
+{
+    if (t == nullptr)
+        return nullptr;
+    else if (t->right == nullptr)
+        return t;
+    else
+        return find_max_private(t->right);
+}
+
+template<typename object>
+binary_search_tree<object>::node* binary_search_tree<object>::find_min()
+{
+    return find_min_private(root);
+}
+
+template<typename object>
+binary_search_tree<object>::node* binary_search_tree<object>::find_max()
+{
+    return find_max_private(root);
 }
