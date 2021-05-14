@@ -33,6 +33,8 @@ private:
     node* find_min_private(node* t);
     //查找最大值，内部接口
     node* find_max_private(node* t);
+    //向树中插入一个元素，内部接口
+    void get_in_private(object & x,node* t);
 public:
     //构造函数
     binary_search_tree();
@@ -44,6 +46,8 @@ public:
     node* find_min();
     //查找最大值，公有接口
     node* find_max();
+    //向树中插入一个元素
+    void get_in(object & x);
 };
 
 template<typename object>
@@ -122,4 +126,23 @@ template<typename object>
 binary_search_tree<object>::node* binary_search_tree<object>::find_max()
 {
     return find_max_private(root);
+}
+
+template<typename object>
+void binary_search_tree<object>::get_in_private(object & x,node* t)
+{
+    if (t == nullptr)
+        t = new node(x,nullptr,nullptr);
+    else if (t->object > x)
+        get_in_private(x,t->left);
+    else if (t->object < x)
+        get_in_private(x,t->right);
+    else
+        ;
+}
+
+template<typename object>
+void binary_search_tree<object>::get_in(object & x)
+{
+    get_in_private(x,root);
 }
