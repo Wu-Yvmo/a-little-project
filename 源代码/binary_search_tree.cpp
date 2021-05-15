@@ -35,6 +35,8 @@ private:
     node* find_max_private(node* t);
     //向树中插入一个元素，内部接口
     void get_in_private(object & x,node* t);
+    //向树中删除一个节点，内部实现
+    void remove_private(object & x,node* t);
 public:
     //构造函数
     binary_search_tree();
@@ -148,3 +150,44 @@ void binary_search_tree<object>::get_in(object & x)
 {
     get_in_private(x,root);
 } 
+
+template<typename object>
+void binary_search_tree<object>::remove_private(object & x,node* t)
+{
+    if (t == nullptr)
+        ;
+    else if (x > t->the_data)
+        remove_private(x,t->left);
+    else if (x < t->the_data)
+        remove_private(x,t->right);
+    else if (t->left != nullptr && t->right != nullptr)
+    {
+        t->the_data = find_min(t->right);
+        remove(t->the_data,t->right);
+    }
+    else 
+    {
+        if (t->left == nullptr)
+        {
+            node* old=t->right;
+            t->the_data=t->right->the_data;
+            t->left=t->right->left;
+            t->right=t->right->right;
+            delete old;
+        }
+        else
+        {
+            node* old=t->left;
+            t->the_data=t->left->the_data;
+            t->left=t->left->left;
+            t->right=t->left->right;
+            delete old;
+        }
+    }
+}
+
+template <typename object>
+void binary_search_tree<object>::remove(object & x)
+{
+    remove_private(x,root);
+}
