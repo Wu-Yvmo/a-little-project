@@ -48,6 +48,8 @@ public:
     node* find_max();
     //向树中插入一个元素
     void get_in(object & x);
+    //从树中删除一个节点
+    void remove(object & x);
 };
 
 template<typename object>
@@ -145,4 +147,4 @@ template<typename object>
 void binary_search_tree<object>::get_in(object & x)
 {
     get_in_private(x,root);
-}
+} 
