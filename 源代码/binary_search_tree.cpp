@@ -48,8 +48,10 @@ private:
     void double_turn_left(node* &);
     //右支进行双旋转
     void double_turn_right(node* &);
-    //todo balance接口
-    //todo 高度计算height接口
+    //对节点进行平衡
+    void balance(node* &);
+    //返回当前节点的高度
+    int height(node* &);
 public:
     //构造函数
     binary_search_tree();
@@ -68,8 +70,6 @@ public:
     void get_in(object & x);
     //从树中删除一个元素
     void remove(object & x);
-    //todo 插入接口
-    //todo 删除接口
 };
 
 template<typename object>
@@ -161,6 +161,7 @@ void binary_search_tree<object>::get_in_private(object & x,node* t)
         get_in_private(x,t->right);
     else
         ;
+    balance(t);
 }
 
 template<typename object>
@@ -202,6 +203,7 @@ void binary_search_tree<object>::remove_private(object & x,node* t)
             delete old;
         }
     }
+    balance(t);
 }
 
 template <typename object>
@@ -259,4 +261,42 @@ void binary_search_tree<object>::double_turn_left(node* & a)
 {
     single_turn_right(a->left);
     single_turn_right(a);
+}
+
+template<typename object>
+void binary_search_tree<object>::balance(node* & t)
+{
+    if (height(t->left)-height(t->right) > 1)
+    {
+        if (height(t->left->left)-height(t->left->right) == 1)
+        {
+            single_turn_left(t);
+        }
+        else
+        {
+            double_turn_left(t);
+        }
+    }
+    else if (height(t->right)-height(t->left) > 1)
+    {
+        if (height(t->right->right)-height(t->right->left)==1)
+        {
+            single_turn_right(t);
+        }
+        else
+        {
+            double_turn_right(t);
+        }
+    }
+
+    t->height=max(height(t->left),height(t-<right))+1;
+}
+
+template<typename object>
+int binary_search_tree<object>::height(node* & t)
+{
+    if (t==nullptr)
+        return -1;
+    else
+        return t->height;
 }
