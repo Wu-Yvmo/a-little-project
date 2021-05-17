@@ -2,28 +2,29 @@ template<typename object>
 class binary_search_tree
 {
 private:
-
     //二叉树的节点由一个结构体实现
-    //包括节点本身，指向左树的指针，指向右树的指针
-    //我顺便写了两个构造函数，应该后面会有用
+    //包括:节点本身，指向左树的指针，指向右树的指针
+    //我顺便写了个构造函数，应该后面会有用
+    //todo 高度数据
+    //todo node构造函数更新
     struct node
     {
         object the_data;
         node* left;
         node* right;
+        int height;
         node()
         {
             left=nullptr;
             right=nullptr;
         }
-        node(object a,node* b,node* c)
+        node(object a,node* b,node* c,height =0)
         {
             the_data=a;
             left=b;
             right=c;
         }
     };
-
     //该指针指向树根
     node* root;
     //binary_search_tree类私有，该方法删除参数指针指向的树
@@ -40,7 +41,10 @@ private:
     void remove_private(object & x,node* t);
     //复制构造函数的内部接口
     node* clone(node* t);
-
+    //todo 单旋转私有接口
+    //todo 双旋转接口
+    //todo balance接口
+    //todo 高度计算height接口
 public:
     //构造函数
     binary_search_tree();
@@ -55,11 +59,12 @@ public:
     node* find_min();
     //查找最大值，公有接口
     node* find_max();
-
     //向树中插入一个元素
     void get_in(object & x);
     //从树中删除一个元素
     void remove(object & x);
+    //todo 插入接口
+    //todo 删除接口
 };
 
 template<typename object>
