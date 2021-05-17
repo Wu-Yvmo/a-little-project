@@ -5,8 +5,6 @@ private:
     //二叉树的节点由一个结构体实现
     //包括:节点本身，指向左树的指针，指向右树的指针
     //我顺便写了个构造函数，应该后面会有用
-    //todo 高度数据
-    //todo node构造函数更新
     struct node
     {
         object the_data;
@@ -18,11 +16,12 @@ private:
             left=nullptr;
             right=nullptr;
         }
-        node(object a,node* b,node* c,height =0)
+        node(object a,node* b,node* c,d =0)
         {
             the_data=a;
             left=b;
             right=c;
+            height = d;
         }
     };
     //该指针指向树根
@@ -41,8 +40,14 @@ private:
     void remove_private(object & x,node* t);
     //复制构造函数的内部接口
     node* clone(node* t);
-    //todo 单旋转私有接口
-    //todo 双旋转接口
+    //针对左-左偏高的单旋转
+    void single_turn_left(node* &);
+    //针对右-右偏高的单旋转
+    void single_turn_right(node* &);
+    //左支进行双旋转
+    void double_turn_left(node* &);
+    //右支进行双旋转
+    void double_turn_right(node* &);
     //todo balance接口
     //todo 高度计算height接口
 public:
@@ -222,4 +227,36 @@ template<typename object>
 binary_search_tree<object>::binary_search_tree(binary_search_tree & a)
 {
     root=clone(a);
+}
+
+template<typename object>
+void binary_search_tree<object>::single_turn_left(node* & a)
+{
+    node* b=a->left;
+    a->left=a->left->right;
+    b->right=a;
+    a=b;
+}
+
+template<typename object>
+void binary_search_tree<object>::single_turn_right(node* & a)
+{
+    node* b=a->right;
+    a->right=a->right->left;
+    b->left=a;
+    a=b;
+}
+
+template<typename object>
+void binary_search_tree<object>::double_turn_left(node* & a)
+{
+    single_turn_left(a->left);
+    single_turn_left(a);
+}
+
+template<typename object>
+void binary_search_tree<object>::double_turn_left(node* & a)
+{
+    single_turn_right(a->left);
+    single_turn_right(a);
 }
